@@ -9,6 +9,11 @@ class Flower(BaseModel):
     id: int = 0
 
 
+class Response_Flower(BaseModel):
+    name: str
+    cost: int
+
+
 class FlowersRepository:
     flowers: list[Flower]
 
@@ -28,13 +33,25 @@ class FlowersRepository:
     def get_all(self):
         return self.flowers
 
-    def get_list(self, flowers_id: list )-> list:
+    def get_list(self, flowers_id: list) -> list[Flower]:
         res = []
         if flowers_id is None:
             return res
         for index, flower in enumerate(self.flowers):
             if str(flower.id) in flowers_id:
                 res.append(flower)
+        return res
+
+    def get_response_flowers(self, flowers_id_list: list) -> list[Response_Flower]:
+        res = []
+        if flowers_id_list is None:
+            return res
+        for index, flower in enumerate(self.flowers):
+            if flower.id in flowers_id_list:
+                response_flower = Response_Flower(name=flower.name, cost=flower.cost)
+                res.append(response_flower)
+
+        print(f"res: {res}")
         return res
 
 

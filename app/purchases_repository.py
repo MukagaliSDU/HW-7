@@ -1,8 +1,8 @@
 from attrs import define
+from pydantic import BaseModel
 
 
-@define
-class Purchase:
+class Purchase(BaseModel):
     user_id: int = 0
     flower_id: int = 0
 
@@ -13,6 +13,12 @@ class PurchasesRepository:
     def __init__(self):
         self.purchases = []
 
-    # необходимые методы сюда
+    def save(self, purchase: Purchase):
+        self.purchases.append(purchase)
 
-    # конец решения
+    def get_all(self):
+        return self.purchases
+
+    def get_by_user_id(self, user_id: int) -> list:
+        flowers = [i.flower_id for i in self.purchases if i.user_id == user_id]
+        return flowers
